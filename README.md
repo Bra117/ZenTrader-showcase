@@ -5,15 +5,17 @@
 <h1 align="center">ZenTrader</h1>
 
 <p align="center">
-  Diario de trading, cuentas y desafíos de prop firm, analítica con AI Coach y coaching automático.<br/>
-  Offline-first, con sincronización opcional y sistema de membresías por niveles.
+  Diario de trading, calculadora de lote, cuentas y desafíos de prop firm, analítica con AI Coach,<br/>
+  cuentas verificadas con perfil público y ZenScore. Offline-first, con sincronización en la nube y membresías por niveles.
 </p>
 
 <p align="center">
-  <a href="https://zentrader-preview.vercel.app">🔗 Ver landing / demo interactivo</a>
+  <a href="https://zentrader.webtrader.trade">🔗 Sitio del proyecto</a> ·
+  <a href="https://zentrader.webtrader.trade/app/">📱 Probar la app en la web</a> ·
+  <a href="https://zentrader-app.webtrader.trade">👥 Página para usuarios</a>
 </p>
 
-> 🔒 **El código fuente de este proyecto es privado.** Este repositorio es una vista general (arquitectura, features, capturas) para portafolio. Código disponible bajo solicitud en una entrevista.
+> 🔒 **El código fuente de este proyecto es privado.** Este repositorio es una vista general (arquitectura, funciones, capturas) para portafolio. El código está disponible bajo solicitud en una entrevista.
 
 ---
 
@@ -29,38 +31,43 @@
 
 ## Qué hace
 
-- **Diario de trading**: registro completo (par, entrada, SL/TP, lote, confluencias) o "Quick Log" en segundos.
-- **Cuentas y desafíos**: administra múltiples cuentas y sigue reglas de desafíos de prop firm (drawdown, objetivo, días mínimos) en tiempo real.
-- **Analítica & AI Coach**: net profit, win rate, curva de equity, heatmap por día, rendimiento por confluencia/par/emoción, ganancia por hora del día, e insights automáticos.
-- **Logros**: gamificación para reforzar hábitos de trading saludables.
-- **Notas**: diario aparte vinculable a un trade específico.
-- **Seguridad**: bloqueo biométrico y autenticación propia contra el backend.
-- **Exportación**: reportes a CSV y PDF.
-- **Perfil público**: opcional, compartible.
-- **Membresías**: 4 niveles (Free / Pro / Elite / Unlimited) con pagos manuales vía Binance Pay y USDT (TRC20), revisados y aprobados por un administrador.
+- **Diario de trading**: registro completo (par, entrada, SL/TP, lote, riesgo %, confluencias, emoción) o "Quick Log" en segundos.
+- **Calculadora de lote**: lote exacto según capital, % de riesgo y distancia al Stop Loss, con especificaciones de contrato por instrumento. En Android, **burbuja flotante** encima de MT4/MT5 o TradingView y **widget de pantalla de inicio**.
+- **Cuentas y desafíos**: varias cuentas (real, demo, prop firm) con reglas de drawdown, objetivo y días mínimos en tiempo real.
+- **Analítica y AI Coach**: net profit, win rate, profit factor, expectativa, riesgo de ruina, curva de equity, heatmap por día, rendimiento por par/emoción/confluencia/hora, e insights automáticos.
+- **ZenScore (0-100)**: nota por cuenta que combina rentabilidad y disciplina (riesgo y stop loss, lotaje consistente, sobreoperación y revancha, drawdown). Una sola implementación compartida por la app y el perfil público, cubierta con tests.
+- **Cuentas verificadas**: se comparte el reporte HTML del broker (MT4/MT5) directo a la app desde Drive, WhatsApp o Archivos, o se vincula la cuenta vía MetaApi. Las cuentas verificadas llevan insignia.
+- **Perfil público**: rendimiento total con curva de capital animada, KPIs, ZenScore y operaciones recientes, sin mostrar montos. Se publica en una web aparte de perfiles.
+- **Logros y notas**: gamificación de hábitos y diario de ideas vinculable a un trade.
+- **Seguridad**: login con huella, almacenamiento cifrado y borrado de cuenta desde la app.
+- **Membresías**: Free / Pro / Elite / Unlimited (mensuales). Google Play Billing en la versión de Play Store; en web y APK directa, USDT (Binance Pay / TRC20) aprobado por un administrador.
+- **Panel de administración**: usuarios y membresías con vencimiento, pagos pendientes, planes, control de versión (actualización opcional u obligatoria) y analítica de uso de la app.
+- **Exportación e idiomas**: CSV y PDF; español e inglés.
+- **Diseño**: kit visual propio para el menú y todas las pantallas, con varios temas (incluido uno claro) y animaciones.
 
 ## Arquitectura
 
 ```
-┌─────────────────┐        HTTPS/JSON        ┌──────────────────┐
-│   App Flutter    │ ───────────────────────▶ │  API Node/Express │
-│  (Android/iOS/Web)│ ◀─────────────────────── │      + JWT        │
-│  SQLite (offline) │                          └─────────┬────────┘
-└─────────────────┘                                     │
-                                                          ▼
-                                                 ┌──────────────────┐
-                                                 │   PostgreSQL     │
-                                                 └──────────────────┘
+┌───────────────────┐       HTTPS/JSON       ┌───────────────────┐
+│    App Flutter    │ ─────────────────────▶ │ API Node/Express  │
+│  Android/iOS/Web  │ ◀───────────────────── │    + JWT, PM2     │
+│  SQLite (offline) │                        └─────────┬─────────┘
+└─────────┬─────────┘                                  │
+          │ canales nativos (Kotlin):                  ▼
+          │ reporte compartido, burbuja,     ┌───────────────────┐
+          ▼ widget de inicio                 │    PostgreSQL     │
+     Android                                 └───────────────────┘
 ```
 
-- **App**: Flutter (Android/iOS/Web), offline-first con SQLite, `provider` para manejo de estado.
-- **Backend**: Node.js + Express, autenticación JWT, subida de archivos con Multer, correo transaccional con Nodemailer.
-- **Base de datos**: PostgreSQL (migraciones versionadas en SQL plano).
-- **Hosting**: landing en Vercel, API en servidor propio.
+- **App**: Flutter (Android/iOS/Web), offline-first con SQLite (también en web), `provider` para el estado. Sin conexión, el login pasa solo a modo local y conserva la membresía de la última sesión online.
+- **Builds**: el mismo código genera la app móvil, la web de perfiles públicos, la web con la app completa y el build de Play Store, elegidos con banderas de compilación.
+- **Backend**: Node.js + Express, JWT + bcrypt, rate limiting, subida de archivos con Multer, correo con Nodemailer, datos de mercado con Yahoo Finance.
+- **Base de datos**: PostgreSQL (migraciones en SQL plano).
+- **Hosting**: API y webs en servidor propio (DigitalOcean + nginx) detrás de Cloudflare.
 
 ## Stack técnico
 
-`Flutter` · `Dart` · `Provider` · `SQLite` · `Node.js` · `Express` · `PostgreSQL` · `JWT` · `Nodemailer`
+`Flutter` · `Dart` · `Provider` · `SQLite` · `fl_chart` · `Kotlin` · `Google Play Billing` · `Node.js` · `Express` · `PostgreSQL` · `JWT` · `Nodemailer` · `nginx` · `Cloudflare`
 
 ---
 
