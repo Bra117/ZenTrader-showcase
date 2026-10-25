@@ -39,6 +39,7 @@
 - **Cuentas verificadas**: se comparte el reporte HTML del broker (MT4/MT5) directo a la app desde Drive, WhatsApp o Archivos, o se vincula la cuenta vía MetaApi. Las cuentas verificadas llevan insignia.
 - **Perfil público**: rendimiento total con curva de capital animada, KPIs, ZenScore y operaciones recientes, sin mostrar montos. Se publica en una web aparte de perfiles.
 - **Logros y notas**: gamificación de hábitos y diario de ideas vinculable a un trade.
+- **Recordatorios de práctica**: notificaciones locales programadas en el teléfono a los 2, 7 y 14 días sin registrar en backtest, demo o real (fondeada: 25, por la regla de inactividad de las firmas). Los días se basan en estudios de hábitos y de pérdida de habilidades; se reprograman al abrir la app o registrar un trade. Consejo de trading diario en todos los planes; los avisos, desde Pro.
 - **Seguridad**: login con huella, almacenamiento cifrado y borrado de cuenta desde la app.
 - **Membresías**: Free / Pro / Elite / Unlimited (mensuales). Google Play Billing en la versión de Play Store; en web y APK directa, USDT (Binance Pay / TRC20) aprobado por un administrador.
 - **Panel de administración**: usuarios y membresías con vencimiento, pagos pendientes, planes, control de versión (actualización opcional u obligatoria) y analítica de uso de la app.
@@ -67,7 +68,7 @@
 
 ## Stack técnico
 
-`Flutter` · `Dart` · `Provider` · `SQLite` · `fl_chart` · `Kotlin` · `Google Play Billing` · `Node.js` · `Express` · `PostgreSQL` · `JWT` · `Nodemailer` · `nginx` · `Cloudflare`
+`Flutter` · `Dart` · `Provider` · `SQLite` · `fl_chart` · `awesome_notifications` · `Kotlin` · `Google Play Billing` · `Node.js` · `Express` · `PostgreSQL` · `JWT` · `Nodemailer` · `nginx` · `Cloudflare`
 
 ---
 
