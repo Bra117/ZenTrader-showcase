@@ -35,10 +35,11 @@
 - **Calculadora de lote**: lote exacto según capital, % de riesgo y distancia al Stop Loss, con especificaciones de contrato por instrumento. En Android, **burbuja flotante** encima de MT4/MT5 o TradingView y **widget de pantalla de inicio**.
 - **Cuentas y desafíos**: varias cuentas (real, demo, prop firm) con reglas de drawdown, objetivo y días mínimos en tiempo real.
 - **Analítica y AI Coach**: net profit, win rate, profit factor, expectativa, riesgo de ruina, curva de equity, heatmap por día, rendimiento por par/emoción/confluencia/hora, e insights automáticos.
-- **ZenScore (0-100)**: nota por cuenta que combina rentabilidad y disciplina (riesgo y stop loss, lotaje consistente, sobreoperación y revancha, drawdown). Una sola implementación compartida por la app y el perfil público, cubierta con tests.
+- **ZenScore (0-100)**: nota por cuenta que combina rentabilidad y disciplina (riesgo y stop loss, lotaje consistente, cumplimiento del plan de trading, drawdown). Una sola implementación compartida por la app y el perfil público, cubierta con tests.
 - **Cuentas verificadas**: se comparte el reporte HTML del broker (MT4/MT5) directo a la app desde Drive, WhatsApp o Archivos, o se vincula la cuenta vía MetaApi. Las cuentas verificadas llevan insignia.
 - **Perfil público**: rendimiento total con curva de capital animada, KPIs, ZenScore y operaciones recientes, sin mostrar montos. Se publica en una web aparte de perfiles.
-- **Logros y notas**: gamificación de hábitos y diario de ideas vinculable a un trade.
+- **Plan de trading**: reglas contra la sobreoperación (operaciones por día, % de riesgo, pérdida diaria máxima, parar tras pérdidas seguidas) en todas las cuentas. Avisa sin bloquear al registrar un trade que lo rompe, el coach mide el cumplimiento y el ZenScore lo penaliza. Recomendado para todos, personalizable en Elite.
+- **Logros y notas**: gamificación de hábitos y notas relacionadas con operaciones de cualquier cuenta (real, fondeada, demo o backtest), con su resumen.
 - **Recordatorios de práctica**: notificaciones locales programadas en el teléfono a los 2, 7 y 14 días sin registrar en backtest, demo o real (fondeada: 25, por la regla de inactividad de las firmas). Los días se basan en estudios de hábitos y de pérdida de habilidades; se reprograman al abrir la app o registrar un trade. Consejo de trading diario en todos los planes; los avisos, desde Pro.
 - **Seguridad**: login con huella, almacenamiento cifrado y borrado de cuenta desde la app.
 - **Membresías**: Free / Pro / Elite / Unlimited (mensuales). Google Play Billing en la versión de Play Store; en web y APK directa, USDT (Binance Pay / TRC20) aprobado por un administrador.
